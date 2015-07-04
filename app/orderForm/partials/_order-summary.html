@@ -1,0 +1,56 @@
+<h4>Your Order</h4>
+
+<div class="row">
+	<div class="col-md-12">
+		<p ng-show="order.items.length === 0"><em>Nothing yet!</em></p>
+
+		<table ng-show="order.items.length > 0" 
+			   class="order-items table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in order.items | orderBy: 'type'" 
+					class="repeated-item">
+					<td class="order-line-item" title="{{item.name}}">
+						{{item.name}}
+					</td>
+
+					<td class="order-line-item-quantity">
+						{{item.quantity}}
+					</td>
+
+					<td class="order-line-item-price">
+						{{item.price | currency}}											
+					</td>
+
+					<td class="order-line-item-remove-area">
+						<span class="pull-right remove-line-item"
+							  title="Remove this item"
+							  ng-show="item.type !== 'serviceMethod'"
+							  ng-click="modifyLineItemQuantity(item)">&times;</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<p>
+			<strong>Total</strong>: {{order.total | currency}}
+		</p>
+
+		<p>
+			<button type="button"
+					ng-disabled="!orderIsValid"
+					class="btn btn-success"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
+		</p>
+	</div>
+</div>

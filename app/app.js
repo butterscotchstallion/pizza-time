@@ -7,6 +7,7 @@ angular.module('pizzaTime', [
   'pizzaTime.orderForm',
   'pizzaTime.version',
   'angular-loading-bar',
+  'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/order-form'});

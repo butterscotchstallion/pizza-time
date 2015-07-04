@@ -4,14 +4,16 @@
 		"serviceMethods": [
 			{
 				"name": "Carry out",
+				"code": "carryout",
 				"description": "Handle your pizza personally",
 				"price": 0,
 				"type": "serviceMethod"
 			},
 			{
 				"name": "Delivery",
+				"code": "delivery",
 				"description": "We bring the party to you",
-				"price": 10,
+				"price": 5,
 				"type": "serviceMethod"
 			}
 		]
@@ -22,7 +24,7 @@
 			"description": "Enough to feed your dog, or a small person.",
 			"price": "7",
 			"quantity": 1,
-			"maxQuantity": 1,
+			"maxQuantity": 5,
 			"type": "pie"
 		},
 		{
@@ -30,7 +32,7 @@
 			"description": "About the size of your hand, if you had really big hands.",
 			"price": "9",
 			"quantity": 1,
-			"maxQuantity": 1,
+			"maxQuantity": 5,
 			"type": "pie"
 		},
 		{
@@ -38,7 +40,7 @@
 			"description": "Large and in charge, this pie will leave you sleepy and satisfied.",
 			"price": "11",
 			"quantity": 1,
-			"maxQuantity": 1,
+			"maxQuantity": 5,
 			"type": "pie"
 		},
 		{
@@ -46,7 +48,7 @@
 			"description": "Giant-sized, for when your hunger cannot be tamed by a Large.",
 			"price": "13",
 			"quantity": 1,
-			"maxQuantity": 1,
+			"maxQuantity": 5,
 			"type": "pie"
 		}
 	],
@@ -108,7 +110,7 @@
 		{
 			"id": 7,
 			"name": "Himalayan Salt Crystals",
-			"description": "From the dankest salt mines",
+			"description": "From our dankest salt mines",
 			"price": "5.00",
 			"isMeat": false,
 			"quantity": 1,
@@ -131,6 +133,24 @@
 			"isMeat": false,
 			"quantity": 1,
 			"type": "topping"
+		}
+	],
+	"sideItems": [
+		{
+			"name": "Heart Attack Cola",
+			"description": "Get charged up with our special blend of artery-hardening battery acid.",
+			"price": "2.50",
+			"type": "sideItem",
+			"quantity": 1,
+			"maxQuantity": 5
+		},
+		{
+			"name": "Dangerously Cheesy Nachos",
+			"description": "Feel the heart from our spiciest nachos, piled high with all the toppings you need.",
+			"price": "5.50",
+			"type": "sideItem",
+			"quantity": 1,
+			"maxQuantity": 5
 		}
 	]
 }

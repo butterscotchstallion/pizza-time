@@ -10,6 +10,11 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 }])
 
 .controller('OrderFormController', ["$scope", "$http", function ($scope, $http) {
+	$scope.orderIsValid = false;
+	$scope.settings = {
+		minimumOrderAmount: 0
+	};
+
 	$scope.order = {
 		total: 0,
 		pieSize: "Large",
@@ -21,15 +26,23 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		if (method.price === 0) {
 			removeDeliveryFee();
 		} else {
-			method.name = "Delivery Fee";
-			
-			$scope.addLineItem(method);
+			var fee = {
+				"name": "Delivery Fee",
+				"price": method.price,
+				"type": method.type,
+				"code": method.code,
+				"quantity": 1,
+				"maxQuantity": 1
+			};
+
+			$scope.addLineItem(fee);
 		}
 	};
 	
 	$http.get("orderForm/order-form.json").success(function (data) {
 		$scope.pieSizes = data.pieSizes;
 		$scope.settings = data.settings;
+		$scope.sideItems = data.sideItems;
 
 		$scope.toppings = {
 			meat: (function () {
@@ -67,14 +80,30 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 	function calculateTotal(items) {
 		var price;
+		var typeCountMap = {};
+		var minOrderAmountSatisfied = false;
+		var minItemTypeSatisfied = false;
 
 		$scope.order.total = 0;
 		
 		angular.forEach(items, function (value, key) {
+			if (typeof typeCountMap[value.type] === "undefined") {
+				typeCountMap[value.type] = 0;
+			} 
+
+			typeCountMap[value.type]++;
+			
 			price = parseFloat(value.price, 10);
 
 			$scope.order.total += price * value.quantity;
 		});
+
+		minOrderAmountSatisfied = $scope.order.total >= $scope.settings.minimumOrderAmount;
+		minItemTypeSatisfied = typeof typeCountMap['pie'] !== "undefined" && typeCountMap['pie'] > 0;
+
+		// Order is not valid unless the minimum amount has been satisfied
+		// and the order consists of more than just a delivery fee.
+		$scope.orderIsValid = minOrderAmountSatisfied && minItemTypeSatisfied;
 	}
 
 	$scope.addLineItem = function (item) {
@@ -86,6 +115,8 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 			if (items[j] === item) {
 				if (item.quantity < items[j].maxQuantity) {
 					items[j].quantity += 1;
+
+					calculateTotal(items);
 				}
 
 				exists = true;
@@ -115,10 +146,6 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 				break;
 			}
 		}
-	};
-
-	$scope.isOrderValid = function () {
-		$scope.order.total >= $scope.settings.minimumOrderAmount;
 	};
 
 	function removeDeliveryFee() {

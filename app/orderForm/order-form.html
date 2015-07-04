@@ -4,154 +4,37 @@
 <form action="#" id="order-form">
 	<div class="row">
 		<div class="col-md-6">
-			<div class="row">
-				<div class="col-md-12">
-					<h5>Service Methods</h5>
-
-					<div class="radio" 
-						 ng-repeat="method in settings.serviceMethods | orderBy: 'name'">
-						<label>
-							<input type="radio"
-								   name="serviceMethod"
-								   ng-model="order.deliveryMethod"
-								   ng-change="onDeliveryMethodChanged(method)"
-								   value="{{method.name}}"> {{method.name}}
-
-							<p class="help-block" 
-							   ng-show="price > 0">Note: there is a {{settings.deliveryFee | currency}} delivery fee.</p>
-						</label>
+			<tabset>
+		  		<tab heading="Service Method">
+		  			<div class="row">
+						<div class="col-md-12" 
+							 ng-include="'orderForm/partials/_service-methods.html'"></div>
 					</div>
-				</div>
-			</div>
+		  		</tab>
 
-			<div class="row">
-				<div class="col-md-12">
-					<h4>Pies <small>Better to have too much than not enough!</small></h4>
-
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<th>Size</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="size in pieSizes">
-								<td>
-									{{size.name}} &mdash; {{size.price|currency}}
-
-									<p><em>{{size.description}}</em></p>
-								</td>
-
-								<td>
-									<button type="button"
-											class="btn btn-info"
-											ng-disabled="isDisabled(size)"
-											ng-click="addLineItem(size)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<h4>Artisan Toppings <small>Gluten-free</small></h4>
-
-					<div class="row">
-						<div class="col-md-6">
-							<strong>Meat</strong>
-
-							<div class="checkbox" 
-								 ng-repeat="topping in toppings.meat | orderBy:'name'">
-								<label class="topping-label">
-									<input type="checkbox"
-										   name="toppings"
-										   id="item-{{topping.id}}"
-										   value="{{topping.id}}"
-										   checklist-value="topping"
-										   checklist-model="order.items"> {{topping.name}} <em>{{topping.price|currency}}</em>
-
-										   <p><em>{{topping.description}}</em></p>
-								</label>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<strong>Non-Meat</strong>
-
-							<div class="checkbox" 
-								 ng-repeat="topping in toppings.nonMeat | orderBy:'name'">
-								<label class="topping-label">
-									<input type="checkbox"
-										   name="toppings"
-										   id="item-{{topping.id}}"
-										   value="{{topping.id}}"
-										   checklist-value="topping"
-										   checklist-model="order.items"> {{topping.name}} <em>{{topping.price|currency}}</em>
-
-										   <p><em>{{topping.description}}</em></p>
-								</label>
-							</div>
-						</div>
+			    <tab heading="Pie">
+			   		<div class="row">
+						<div class="col-md-12" ng-include="'orderForm/partials/_pies.html'"></div>
 					</div>
-				</div>
-			</div>
+				</tab>
+
+			   	<tab heading="Toppings">
+			   		<div class="row">
+						<div class="col-md-12" ng-include="'orderForm/partials/_toppings.html'"></div>
+					</div>
+			   	</tab>
+
+			   	<tab heading="Side items">
+			   		<div class="row">
+						<div class="col-md-12" ng-include="'orderForm/partials/_sides.html'"></div>
+					</div>
+			   	</tab>
+			</tabset>
 		</div>
 
 		<div class="col-md-3">
 			<div class="row">
-				<div class="col-md-12">
-					<h4>Your Order</h4>
-
-					<div class="row">
-						<div class="col-md-12">
-							<p ng-show="order.items.length === 0"><em>Nothing yet!</em></p>
-
-							<table ng-show="order.items.length > 0" 
-								   class="order-items table table-condensed table-hover">
-								<thead>
-									<tr>
-										<th>Item</th>
-										<th>Price</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="item in order.items | orderBy: 'type'" class="repeated-item">
-										<td class="order-line-item" title="{{item.name}}">
-											{{item.name}} <span ng-show="item.quantity > 1">&times; {{item.quantity}}</span>
-										</td>
-
-										<td class="order-line-item-price">
-											{{item.price | currency}}											
-										</td>
-
-										<td class="order-line-item-remove-area">
-											<span class="pull-right remove-line-item"
-												  ng-click="modifyLineItemQuantity(item)">&times;</span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-12">
-							<p>
-								<strong>Total</strong>: {{order.total | currency}}
-							</p>
-
-							<p>
-								<button type="button"
-										ng-disabled="order.total < settings.minimumOrderAmount"
-										class="btn btn-success"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
-							</p>
-						</div>
-					</div>
-				</div>
+				<div class="col-md-12" ng-include="'orderForm/partials/_order-summary.html'"></div>
 			</div>
 		</div>
 	</div>

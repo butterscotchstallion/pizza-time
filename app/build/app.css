@@ -6,6 +6,7 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 @import url(../bower_components/angular-loading-bar/build/loading-bar.min.css);
+@import url(../bower_components/angular-bootstrap/ui-bootstrap-csp.css);
 html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
 
 body { margin: 0; }
@@ -2210,11 +2211,13 @@ footer { font-size: .75em; margin: 2em 0 5em 0; }
 
 .order-line-item { max-width: 200px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
-.order-line-item-price { width: 30%; text-align: right; }
+.order-line-item-price { width: 30%; text-align: left; }
 
 .order-items { width: 100%; }
 
-.order-line-item-remove-area { width: 1%; text-align: right; }
+.order-line-item-remove-area, .order-line-item-quantity { width: 1%; text-align: right; }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 /* We're using CSS transitions for when the enter and move events are triggered for the element that has the .repeated-item class
 */

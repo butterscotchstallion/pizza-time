@@ -30,14 +30,17 @@ footer {
 
 .order-line-item-price {
 	width: 30%;
-	text-align: right;
+	text-align: left;
 }
 
 .order-items {
 	width: 100%;
 }
 
-.order-line-item-remove-area {
+.order-line-item-remove-area,
+.order-line-item-quantity {
 	width: 1%;
 	text-align: right;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
