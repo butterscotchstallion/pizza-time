@@ -1,0 +1,95 @@
+{
+	"settings": {
+		"minimumOrderAmount": "10.00"
+	},
+	"pieSizes": [
+		{
+			"name": "Small Pie",
+			"description": "Enough to feed your dog, or a small person.",
+			"price": "7",
+			"quantity": 1,
+			"maxQuantity": 1,
+			"type": "pie"
+		},
+		{
+			"name": "Medium Pie",
+			"description": "About the size of your hand, if you had really big hands.",
+			"price": "9",
+			"quantity": 1,
+			"maxQuantity": 1,
+			"type": "pie"
+		},
+		{
+			"name": "Large Pie",
+			"description": "Large and in charge, this pie will leave you sleepy and satisfied.",
+			"price": "11",
+			"quantity": 1,
+			"maxQuantity": 1,
+			"type": "pie"
+		},
+		{
+			"name": "Colossal Pie",
+			"description": "Giant-sized, for when your hunger cannot be tamed by a Large.",
+			"price": "13",
+			"quantity": 1,
+			"maxQuantity": 1,
+			"type": "pie"
+		}
+	],
+	"toppings": [
+		{
+			"id": 1,
+			"name": "Pepperoni",
+			"description": "Spicy and delicious",
+			"price": ".50",
+			"isMeat": true,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 2,
+			"name": "Sausage",
+			"description": "Pork",
+			"price": ".80",
+			"isMeat": true,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 3,
+			"name": "Bacon",
+			"description": "Salted and cured to perfection",
+			"price": ".75",
+			"isMeat": true,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 4,
+			"name": "Eggplant",
+			"description": "So good you'll call home about it",
+			"price": ".25",
+			"isMeat": false,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 5,
+			"name": "Onions",
+			"description": "Thinly sliced and grilled Vidalia onions",
+			"price": ".25",
+			"isMeat": false,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 6,
+			"name": "Green Bell Peppers",
+			"description": "Grilled and tasty",
+			"price": ".75",
+			"isMeat": false,
+			"quantity": 1,
+			"type": "topping"
+		}
+	]
+}

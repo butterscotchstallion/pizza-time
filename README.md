@@ -1,2 +1,1 @@
-# pizza-time
-A small AngularJS application for learning purposes!
+A small Angular application to assemble an online order for a pizza restaurant.
