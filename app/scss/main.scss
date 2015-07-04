@@ -16,3 +16,28 @@ footer {
 .remove-line-item {
 	cursor: pointer;
 }
+
+.topping-label {
+	line-height: 1.8;
+}
+
+.order-line-item {
+	max-width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+  	overflow: hidden;
+}
+
+.order-line-item-price {
+	width: 30%;
+	text-align: right;
+}
+
+.order-items {
+	width: 100%;
+}
+
+.order-line-item-remove-area {
+	width: 1%;
+	text-align: right;
+}

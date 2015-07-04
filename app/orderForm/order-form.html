@@ -1,9 +1,29 @@
-<h3>Order Form</h3>
+<h3>Order Form <small><em>Minimum order: {{settings.minimumOrderAmount | currency}}</em></small></h3>
 <hr>
 
 <form action="#" id="order-form">
 	<div class="row">
 		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<h5>Service Methods</h5>
+
+					<div class="radio" 
+						 ng-repeat="method in settings.serviceMethods | orderBy: 'name'">
+						<label>
+							<input type="radio"
+								   name="serviceMethod"
+								   ng-model="order.deliveryMethod"
+								   ng-change="onDeliveryMethodChanged(method)"
+								   value="{{method.name}}"> {{method.name}}
+
+							<p class="help-block" 
+							   ng-show="price > 0">Note: there is a {{settings.deliveryFee | currency}} delivery fee.</p>
+						</label>
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<h4>Pies <small>Better to have too much than not enough!</small></h4>
@@ -25,7 +45,7 @@
 
 								<td>
 									<button type="button"
-											class="btn btn-success"
+											class="btn btn-info"
 											ng-disabled="isDisabled(size)"
 											ng-click="addLineItem(size)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
 								</td>
@@ -45,7 +65,7 @@
 
 							<div class="checkbox" 
 								 ng-repeat="topping in toppings.meat | orderBy:'name'">
-								<label>
+								<label class="topping-label">
 									<input type="checkbox"
 										   name="toppings"
 										   id="item-{{topping.id}}"
@@ -63,7 +83,7 @@
 
 							<div class="checkbox" 
 								 ng-repeat="topping in toppings.nonMeat | orderBy:'name'">
-								<label>
+								<label class="topping-label">
 									<input type="checkbox"
 										   name="toppings"
 										   id="item-{{topping.id}}"
@@ -87,24 +107,28 @@
 
 					<div class="row">
 						<div class="col-md-12">
-							<p ng-if="order.items.length === 0"><em>Nothing yet!</em></p>
+							<p ng-show="order.items.length === 0"><em>Nothing yet!</em></p>
 
-							<table ng-show="order.items.length > 0" class="table table-condensed table-hover">
+							<table ng-show="order.items.length > 0" 
+								   class="order-items table table-condensed table-hover">
 								<thead>
 									<tr>
 										<th>Item</th>
 										<th>Price</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="item in order.items | orderBy: 'type'" class="repeated-item">
-										<td>
+										<td class="order-line-item" title="{{item.name}}">
 											{{item.name}} <span ng-show="item.quantity > 1">&times; {{item.quantity}}</span>
 										</td>
 
-										<td>
-											{{item.price | currency}}
+										<td class="order-line-item-price">
+											{{item.price | currency}}											
+										</td>
 
+										<td class="order-line-item-remove-area">
 											<span class="pull-right remove-line-item"
 												  ng-click="modifyLineItemQuantity(item)">&times;</span>
 										</td>
@@ -122,7 +146,7 @@
 
 							<p>
 								<button type="button"
-										ng-disabled="order.total < minimumOrderAmount"
+										ng-disabled="order.total < settings.minimumOrderAmount"
 										class="btn btn-success"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
 							</p>
 						</div>

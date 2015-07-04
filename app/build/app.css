@@ -2206,6 +2206,16 @@ footer { font-size: .75em; margin: 2em 0 5em 0; }
 
 .remove-line-item { cursor: pointer; }
 
+.topping-label { line-height: 1.8; }
+
+.order-line-item { max-width: 200px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+.order-line-item-price { width: 30%; text-align: right; }
+
+.order-items { width: 100%; }
+
+.order-line-item-remove-area { width: 1%; text-align: right; }
+
 /* We're using CSS transitions for when the enter and move events are triggered for the element that has the .repeated-item class
 */
 .repeated-item.ng-enter, .repeated-item.ng-move { -webkit-transition: 0.5s linear all; -moz-transition: 0.5s linear all; -o-transition: 0.5s linear all; transition: 0.5s linear all; opacity: 0; }

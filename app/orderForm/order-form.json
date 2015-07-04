@@ -1,6 +1,20 @@
 {
 	"settings": {
-		"minimumOrderAmount": "10.00"
+		"minimumOrderAmount": "10.00",
+		"serviceMethods": [
+			{
+				"name": "Carry out",
+				"description": "Handle your pizza personally",
+				"price": 0,
+				"type": "serviceMethod"
+			},
+			{
+				"name": "Delivery",
+				"description": "We bring the party to you",
+				"price": 10,
+				"type": "serviceMethod"
+			}
+		]
 	},
 	"pieSizes": [
 		{
@@ -87,6 +101,33 @@
 			"name": "Green Bell Peppers",
 			"description": "Grilled and tasty",
 			"price": ".75",
+			"isMeat": false,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 7,
+			"name": "Himalayan Salt Crystals",
+			"description": "From the dankest salt mines",
+			"price": "5.00",
+			"isMeat": false,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 8,
+			"name": "Sheep Brains",
+			"description": "This is what electric sheep dream of.",
+			"price": "25.00",
+			"isMeat": true,
+			"quantity": 1,
+			"type": "topping"
+		},
+		{
+			"id": 8,
+			"name": "Extraaaaaaaaaaaaaaaaa Cheeeeeeeeeeeeeeeeeeeeeese",
+			"description": "The extra letters make it taste better.",
+			"price": "25.00",
 			"isMeat": false,
 			"quantity": 1,
 			"type": "topping"
