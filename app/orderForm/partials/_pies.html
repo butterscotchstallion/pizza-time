@@ -19,6 +19,7 @@
 			<td>
 				<button type="button"
 						class="btn btn-info"
+						ng-disabled="size.quantity === size.maxQuantity"
 						ng-click="addLineItem(size)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
 			</td>
 		</tr>

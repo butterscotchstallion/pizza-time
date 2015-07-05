@@ -131,17 +131,18 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 	function calculateTotal(items) {
 		var price;
-		var typeCountMap = {};
 		var minOrderAmountSatisfied = false;
-		var minItemTypeSatisfied = false;
 		var discountAmount;
-
+		var hasPies = false;
+		var typeCountMap = {}; 
+		var hasFee = false;
+		var orderIsJustDeliveryFee = false;
 		$scope.order.total = 0;
-		
+
 		angular.forEach(items, function (item, key) {
 			if (typeof typeCountMap[item.type] === "undefined") {
 				typeCountMap[item.type] = 0;
-			} 
+			}
 
 			typeCountMap[item.type]++;
 
@@ -162,11 +163,12 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		}
 
 		minOrderAmountSatisfied = $scope.order.total >= $scope.settings.minimumOrderAmount;
-		minItemTypeSatisfied = typeof typeCountMap['pie'] !== "undefined" && typeCountMap['pie'] > 0;
+		hasFee = typeof typeCountMap['serviceMethod'] !== "undefined" && typeCountMap['serviceMethod'] > 0;
+		orderIsJustDeliveryFee = items.length === 1 && hasFee;
 
 		// Order is not valid unless the minimum amount has been satisfied
 		// and the order consists of more than just a delivery fee.
-		$scope.orderIsValid = minOrderAmountSatisfied && minItemTypeSatisfied;
+		$scope.orderIsValid = items.length > 0 && minOrderAmountSatisfied && !orderIsJustDeliveryFee;
 	}
 
 	function getPercentageFromTotal(percentage) {
