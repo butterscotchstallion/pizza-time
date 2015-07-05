@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group has-feedback" 
-				 ng-class="{'has-error': invalidCoupon, 'has-success': coupon.length > 0 && !invalidCoupon}">
+				 ng-class="{'has-error': invalidCoupon, 'has-success': coupon.length > 0 && !invalidCoupon && isValidOrder}">
 				<label class="block">Code</label>
 
 				<input type="text"
@@ -16,7 +16,7 @@
 					   class="form-control">
 
 				<span class="glyphicon glyphicon-ok form-control-feedback" 
-					  ng-show="coupon.length > 0 && !invalidCoupon"
+					  ng-show="coupon.length > 0 && !invalidCoupon && isValidOrder"
 					  aria-hidden="true"></span>
 
 				<span class="glyphicon glyphicon-remove form-control-feedback"

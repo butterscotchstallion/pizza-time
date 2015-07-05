@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in order.items | orderBy: 'type'" 
+				<tr ng-repeat="item in order.items | orderBy: ['type','subType']" 
 					class="repeated-item"
 					ng-class="{'success': item.type === 'coupon', 'warning': item.type === 'serviceMethod'}">
 					<td class="order-line-item" title="{{item.name}}">
@@ -69,7 +69,7 @@
 				ng-click="emptyCart()"
 				class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> Empty Cart</button>
 	</div>
-	
+
 	<div class="col-md-6">
 		<button type="button"
 				ng-disabled="!orderIsValid"
