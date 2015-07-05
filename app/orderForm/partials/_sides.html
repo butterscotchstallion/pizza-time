@@ -14,6 +14,8 @@
 				{{item.name}}
 
 				<p class="help-block">{{item.description}}</p>
+
+				<p class="help-block" ng-show="item.maxQuantity > 0">Limit {{item.maxQuantity}} per order</p>
 			</td>
 
 			<td>

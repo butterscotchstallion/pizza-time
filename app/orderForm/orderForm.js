@@ -144,11 +144,9 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 			} 
 
 			typeCountMap[item.type]++;
-			
-			price = parseFloat(item.price, 10);
-			
+
 			if (item.type !== "coupon") {
-				$scope.order.total += price * item.quantity;
+				$scope.order.total += item.price * item.quantity;
 			}
 		});
 
@@ -172,9 +170,9 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 	}
 
 	function getPercentageFromTotal(percentage) {
-		var decimalPercentage = parseFloat("." + percentage, 10);
+		var decimalPercentage = "." + percentage;
 		var orderTotal = $scope.order.total;
-		var discountAmount = Math.round(orderTotal * decimalPercentage, 3);
+		var discountAmount = orderTotal * decimalPercentage;
 
 		return discountAmount;
 	};

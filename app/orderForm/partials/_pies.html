@@ -13,6 +13,7 @@
 				{{size.name}} &mdash; {{size.price|currency}}
 
 				<p><em>{{size.description}}</em></p>
+				<p class="help-block" ng-show="size.maxQuantity > 0">Limit {{size.maxQuantity}} per order</p>
 			</td>
 
 			<td>

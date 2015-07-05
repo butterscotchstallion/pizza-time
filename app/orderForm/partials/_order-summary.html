@@ -16,8 +16,21 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in order.items | orderBy: 'type'" 
-					class="repeated-item">
+					class="repeated-item"
+					ng-class="{'success': item.type === 'coupon', 'warning': item.type === 'serviceMethod'}">
 					<td class="order-line-item" title="{{item.name}}">
+						<span ng-show="!item.isMeat && item.type === 'topping'" 
+							  class="glyphicon glyphicon-tree-deciduous"></span>
+						<span ng-show="item.isMeat && item.type === 'topping'" 
+							  class="glyphicon glyphicon-piggy-bank"></span>
+						<span ng-show="item.type === 'pie'" 
+							  class="glyphicon glyphicon-dashboard"></span>
+						<span ng-show="item.type === 'sideItem'" 
+							  class="glyphicon glyphicon-apple"></span>
+						<span ng-show="item.type === 'coupon'" 
+							  class="glyphicon glyphicon-gift"></span>
+						<span ng-show="item.type === 'serviceMethod'" 
+							  class="glyphicon glyphicon-asterisk"></span>
 						{{item.name}}
 					</td>
 
