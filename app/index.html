@@ -22,9 +22,11 @@
             <h1>Pizza Time</h1>
         </header>
 
-        <div ng-view>Loading...</div>
+        <div ng-view id="main">
+          <div class="spinner"></div>
+        </div>
 
-        <footer>
+        <footer ng-cloak>
           v<span app-version></span>
         </footer>
     </div>
