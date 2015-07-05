@@ -4,7 +4,8 @@
 			"name": "10% off coupon",
 			"code": "ten",
 			"type": "coupon",
-			"amount": "10",
+			"subType": "percentageDiscount",
+			"amount": 10,
 			"quantity": 1,
 			"maxQuantity": 1
 		},
@@ -12,7 +13,17 @@
 			"name": "50% off coupon",
 			"code": "fifty",
 			"type": "coupon",
-			"amount": "50",
+			"subType": "percentageDiscount",
+			"amount": 50,
+			"quantity": 1,
+			"maxQuantity": 1
+		},
+		{
+			"name": "Free delivery coupon",
+			"code": "freedelivery",
+			"type": "coupon",
+			"subType": "freeDelivery",
+			"amount": 0,
 			"quantity": 1,
 			"maxQuantity": 1
 		}

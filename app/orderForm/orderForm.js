@@ -48,6 +48,12 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		for (var j = 0; j < coupons.length; j++) {
 			if (coupons[j].code.toLowerCase() === code) {
 				coupon = coupons[j];
+
+				if (coupon.subType === "freeDelivery") {
+					coupon.price = $scope.deliveryFee;
+					$scope.removeDeliveryFee();
+				}
+
 				break;
 			}
 		}
@@ -62,6 +68,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 .controller('OrderFormController', ["$scope", "$http", function ($scope, $http) {
 	$scope.orderIsValid = false;
+	$scope.deliveryFee = 0;
 	$scope.settings = {
 		minimumOrderAmount: 0
 	};
@@ -75,7 +82,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 	$scope.onDeliveryMethodChanged = function (method) {
 		if (method.price === 0) {
-			removeDeliveryFee();
+			$scope.removeDeliveryFee();
 		} else {
 			var fee = {
 				"name": "Delivery Fee",
@@ -86,8 +93,25 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 				"maxQuantity": 1
 			};
 
-			$scope.addLineItem(fee);
+			$scope.deliveryFee = fee.price;
+
+			/**
+			 * Don't add the delivery fee if they have the free
+			 * delivery coupon.
+			 *
+			 */
+			if (!hasFreeDeliveryCoupon()) {
+				$scope.addLineItem(fee);
+			}
 		}
+	};
+	
+	function hasFreeDeliveryCoupon() {
+		var coupons = $scope.order.items.filter(function (item) {
+			return item.subType === "freeDelivery";
+		});
+
+		return coupons.length > 0;
 	};
 	
 	$http.get("orderForm/order-form.json").success(function (data) {
@@ -155,8 +179,11 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		if (typeCountMap['coupon'] > 0) {
 			angular.forEach(items, function (item, key) {
 				if (item.type === "coupon") {
-					discountAmount = getPercentageFromTotal(item.amount);
-					item.price = discountAmount;
+					if (item.subType === "percentageDiscount") {
+						discountAmount = getPercentageFromTotal(item.amount);
+						item.price = discountAmount;
+					}
+
 					$scope.order.total -= item.price * item.quantity;
 				}
 			});
@@ -208,7 +235,11 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 			if ($scope.order.items[j] === item) {
 				// If there is one left, it's effectively removed
 				if (item.quantity === 1) {
-					$scope.order.items.splice(j, 1);			
+					$scope.order.items.splice(j, 1);
+
+					// If this is a free delivery coupon, add the delivery fee
+					// back to the order
+
 				} else {
 					// If there is more than one of this item, decrement quantity
 					if (item.quantity > 1) {
@@ -221,7 +252,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		}
 	};
 
-	function removeDeliveryFee() {
+	$scope.removeDeliveryFee = function() {
 		var items = $scope.order.items;
 
 		for (var j = 0; j < items.length; j++) {
