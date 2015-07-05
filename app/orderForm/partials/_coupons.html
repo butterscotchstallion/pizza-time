@@ -2,7 +2,7 @@
 
 <div ng-controller="CouponController">
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="form-group has-feedback" 
 				 ng-class="{'has-error': invalidCoupon, 'has-success': coupon.length > 0 && !invalidCoupon && isValidOrder}">
 				<label class="block">Code</label>
@@ -22,6 +22,10 @@
 				<span class="glyphicon glyphicon-remove form-control-feedback"
 					  aria-hidden="true"
 					  ng-show="invalidCoupon"></span>
+
+				<p ng-show="invalidCoupon" class="coupon-wrapper">
+					<strong class="error">Oops, we couldn't apply that coupon to your order.</strong>
+				</p>
 			</div>
 		</div>
 	</div>
