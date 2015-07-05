@@ -29,9 +29,21 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 			coupon = getCouponByCode($scope.coupon);
 
 			if (coupon) {
+				$scope.coupon = "";
+
+				/**
+				 * If this is a free delivery coupon and this isn't a delivery order,
+				 * the coupon is not valid and should not be applied.
+				 * 
+				 */
+				if (coupon.subType === "freeDelivery" && $scope.deliveryMethod !== "delivery") {
+					$scope.invalidCoupon = true;
+					return;
+				}
+
 				applyCoupon(coupon);
 				$scope.invalidCoupon = false;
-				$scope.coupon = "";
+				
 			} else {
 				$scope.invalidCoupon = true;
 			}
@@ -51,7 +63,6 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 				if (coupon.subType === "freeDelivery") {
 					coupon.price = $scope.deliveryFee;
-					$scope.removeDeliveryFee();
 				}
 
 				break;
@@ -81,8 +92,11 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 	};
 
 	$scope.onDeliveryMethodChanged = function (method) {
-		if (method.price === 0) {
+		$scope.deliveryMethod = method.code;
+
+		if ($scope.deliveryMethod === "carryout") {
 			$scope.removeDeliveryFee();
+			removeFreeDeliveryCoupon();
 		} else {
 			var fee = {
 				"name": "Delivery Fee",
@@ -102,9 +116,17 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 			 */
 			if (!hasFreeDeliveryCoupon()) {
 				$scope.addLineItem(fee);
+			} else {
+				removeFreeDeliveryCoupon();
 			}
 		}
 	};
+	
+	function removeFreeDeliveryCoupon() {
+		$scope.order.items = $scope.order.items.filter(function (item) {
+			return item.subType !== "freeDelivery";
+		});
+	}
 	
 	function hasFreeDeliveryCoupon() {
 		var coupons = $scope.order.items.filter(function (item) {
@@ -113,7 +135,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 
 		return coupons.length > 0;
 	};
-	
+
 	$http.get("orderForm/order-form.json").success(function (data) {
 		$scope.pieSizes = data.pieSizes;
 		$scope.settings = data.settings;
@@ -229,6 +251,30 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		}
 	};
 
+	/**
+	 * Because items can have a quantity, we cannot simply
+	 * empty the order items array. Each item must have its quantity
+	 * reduced to zero in order for the buttons to work properly.
+	 *
+	 */
+	$scope.emptyCart = function () {
+		var minItems = 0;
+		var isDelivery = $scope.deliveryMethod === "delivery";
+
+		if (isDelivery) {
+			minItems = 1;
+		}
+
+		while ($scope.order.items.length > minItems) {
+			angular.forEach($scope.order.items, function (item, key) {
+				// Don't remove delivery fees
+				if (item.type !== "serviceMethod") {
+					$scope.modifyLineItemQuantity(item);
+				}
+			});
+		}
+	};
+
 	$scope.modifyLineItemQuantity = function (item) {
 		for (var j = 0; j < $scope.order.items.length; j++) {
 			// Item found
@@ -236,10 +282,6 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 				// If there is one left, it's effectively removed
 				if (item.quantity === 1) {
 					$scope.order.items.splice(j, 1);
-
-					// If this is a free delivery coupon, add the delivery fee
-					// back to the order
-
 				} else {
 					// If there is more than one of this item, decrement quantity
 					if (item.quantity > 1) {
@@ -253,12 +295,8 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 	};
 
 	$scope.removeDeliveryFee = function() {
-		var items = $scope.order.items;
-
-		for (var j = 0; j < items.length; j++) {
-			if (items[j].type === "serviceMethod" && items[j].price > 0) {
-				items = items.splice(j, 1);
-			}
-		}
+		$scope.order.items = $scope.order.items.filter(function (item) {
+			return item.type !== "serviceMethod";
+		});
 	}
 }]);

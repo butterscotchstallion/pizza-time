@@ -43,10 +43,10 @@
 					</td>
 
 					<td class="order-line-item-remove-area">
-						<span class="pull-right remove-line-item"
-							  title="Remove this item"
-							  ng-show="item.type !== 'serviceMethod'"
-							  ng-click="modifyLineItemQuantity(item)">&times;</span>
+						<button type="button"
+								class="btn btn-danger btn-xs"
+								ng-disabled="item.type === 'serviceMethod'"
+							  	ng-click="modifyLineItemQuantity(item)"><span class="glyphicon glyphicon-trash"></span></button>
 					</td>
 				</tr>
 			</tbody>
@@ -59,11 +59,20 @@
 		<p>
 			<strong>Total</strong>: {{order.total | currency}}
 		</p>
+	</div>
+</div>
 
-		<p>
-			<button type="button"
-					ng-disabled="!orderIsValid"
-					class="btn btn-success"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
-		</p>
+<div class="row">
+	<div class="col-md-6">
+		<button type="button"
+				ng-disabled="!orderIsValid"
+				ng-click="emptyCart()"
+				class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> Empty Cart</button>
+	</div>
+	
+	<div class="col-md-6">
+		<button type="button"
+				ng-disabled="!orderIsValid"
+				class="btn btn-success pull-right"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
 	</div>
 </div>
