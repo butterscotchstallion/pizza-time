@@ -5,4 +5,4 @@ angular.module('pizzaTime.version', [
   'pizzaTime.version.version-directive'
 ])
 
-.value('version', '0.1');
+.value('version', '0.25');
