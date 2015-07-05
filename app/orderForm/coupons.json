@@ -1,0 +1,12 @@
+{
+	"coupons": [
+		{
+			"name": "10% off coupon",
+			"code": "ten",
+			"type": "coupon",
+			"amount": "10",
+			"quantity": 1,
+			"maxQuantity": 1
+		}
+	]
+}

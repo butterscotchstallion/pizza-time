@@ -1,6 +1,7 @@
 {
 	"settings": {
 		"minimumOrderAmount": "10.00",
+		"maxCouponCodeLength": 25,
 		"serviceMethods": [
 			{
 				"name": "Carry out",
@@ -118,9 +119,9 @@
 		},
 		{
 			"id": 8,
-			"name": "Sheep Brains",
-			"description": "This is what electric sheep dream of.",
-			"price": "25.00",
+			"name": "Buffalo Chicken",
+			"description": "Spicy buffalo chicken, guaranteed to heat things up!",
+			"price": "3.00",
 			"isMeat": true,
 			"quantity": 1,
 			"type": "topping"
@@ -148,6 +149,22 @@
 			"name": "Dangerously Cheesy Nachos",
 			"description": "Feel the heart from our spiciest nachos, piled high with all the toppings you need.",
 			"price": "5.50",
+			"type": "sideItem",
+			"quantity": 1,
+			"maxQuantity": 5
+		},
+		{
+			"name": "Garlic Bread Sticks",
+			"description": "Oven baked breadsticks stuffed with cheese, and covered in a blend of cheese made with 100% Mozzarella and Cheddar Cheese. Seasoned with a sprinkling of garlic, parsley and Romano cheese. 8 pieces of delicious, cheesy indulgence! Add Marinara or your favorite dipping cup for an additional charge.",
+			"price": "8.50",
+			"type": "sideItem",
+			"quantity": 1,
+			"maxQuantity": 5
+		},
+		{
+			"name": "Marinara Dipping Sauce",
+			"description": "A sweet tomato sauce blended with garlic, basil and oregano",
+			"price": ".50",
 			"type": "sideItem",
 			"quantity": 1,
 			"maxQuantity": 5

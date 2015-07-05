@@ -9,6 +9,57 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
   });
 }])
 
+.controller('CouponController', ["$scope", "$http", function ($scope, $http) {
+	$scope.coupons = [];
+	$scope.invalidCoupon = false;
+	$scope.coupon = "";
+
+	$http.get("orderForm/coupons.json").success(function (data) {
+		$scope.coupons = data.coupons;
+	})
+	.error(function (xhr, status, error) {
+		console.error(error);
+	});
+
+	$scope.addCoupon = function () {
+		var isValidCoupon = false;
+		var coupon = false;
+
+		if ($scope.coupon.length > 0) {
+			coupon = getCouponByCode($scope.coupon);
+
+			if (coupon) {
+				applyCoupon(coupon);
+				$scope.invalidCoupon = false;
+				$scope.coupon = "";
+			} else {
+				$scope.invalidCoupon = true;
+			}
+		} else {
+			$scope.invalidCoupon = true;
+		}
+	};
+
+	function getCouponByCode(couponCode) {
+		var coupon = false;
+		var coupons = $scope.coupons;
+		var code = couponCode.toLowerCase();
+
+		for (var j = 0; j < coupons.length; j++) {
+			if (coupons[j].code.toLowerCase() === code) {
+				coupon = coupons[j];
+				break;
+			}
+		}
+
+		return coupon;
+	};
+
+	function applyCoupon(coupon) {
+		$scope.addLineItem(coupon);
+	}
+}])
+
 .controller('OrderFormController', ["$scope", "$http", function ($scope, $http) {
 	$scope.orderIsValid = false;
 	$scope.settings = {
@@ -83,20 +134,34 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		var typeCountMap = {};
 		var minOrderAmountSatisfied = false;
 		var minItemTypeSatisfied = false;
+		var discountAmount;
 
 		$scope.order.total = 0;
 		
-		angular.forEach(items, function (value, key) {
-			if (typeof typeCountMap[value.type] === "undefined") {
-				typeCountMap[value.type] = 0;
+		angular.forEach(items, function (item, key) {
+			if (typeof typeCountMap[item.type] === "undefined") {
+				typeCountMap[item.type] = 0;
 			} 
 
-			typeCountMap[value.type]++;
+			typeCountMap[item.type]++;
 			
-			price = parseFloat(value.price, 10);
-
-			$scope.order.total += price * value.quantity;
+			price = parseFloat(item.price, 10);
+			
+			if (item.type !== "coupon") {
+				$scope.order.total += price * item.quantity;
+			}
 		});
+
+		// Apply discounts after calculating the whole order
+		if (typeCountMap['coupon'] > 0) {
+			angular.forEach(items, function (item, key) {
+				if (item.type === "coupon") {
+					discountAmount = getPercentageFromTotal(item.amount);
+					item.price = discountAmount;
+					$scope.order.total -= item.price * item.quantity;
+				}
+			});
+		}
 
 		minOrderAmountSatisfied = $scope.order.total >= $scope.settings.minimumOrderAmount;
 		minItemTypeSatisfied = typeof typeCountMap['pie'] !== "undefined" && typeCountMap['pie'] > 0;
@@ -105,6 +170,14 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		// and the order consists of more than just a delivery fee.
 		$scope.orderIsValid = minOrderAmountSatisfied && minItemTypeSatisfied;
 	}
+
+	function getPercentageFromTotal(percentage) {
+		var decimalPercentage = parseFloat("." + percentage, 10);
+		var orderTotal = $scope.order.total;
+		var discountAmount = Math.round(orderTotal * decimalPercentage, 3);
+
+		return discountAmount;
+	};
 
 	$scope.addLineItem = function (item) {
 		var items = $scope.order.items;
