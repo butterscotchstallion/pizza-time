@@ -1,0 +1,78 @@
+<h4>Your Order</h4>
+
+<div class="row">
+	<div class="col-md-12">
+		<p ng-show="order.items.length === 0"><em>Nothing yet!</em></p>
+
+		<table ng-show="order.items.length > 0" 
+			   class="order-items table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in order.items | orderBy: ['type','subType']" 
+					class="repeated-item"
+					ng-class="{'success': item.type === 'coupon', 'warning': item.type === 'serviceMethod'}">
+					<td class="order-line-item" title="{{item.name}}">
+						<span ng-show="!item.isMeat && item.type === 'topping'" 
+							  class="glyphicon glyphicon-tree-deciduous"></span>
+						<span ng-show="item.isMeat && item.type === 'topping'" 
+							  class="glyphicon glyphicon-piggy-bank"></span>
+						<span ng-show="item.type === 'pie'" 
+							  class="glyphicon glyphicon-dashboard"></span>
+						<span ng-show="item.type === 'sideItem'" 
+							  class="glyphicon glyphicon-scale"></span>
+						<span ng-show="item.type === 'coupon'" 
+							  class="glyphicon glyphicon-gift"></span>
+						<span ng-show="item.type === 'serviceMethod'" 
+							  class="glyphicon glyphicon-usd"></span>
+						{{item.name}}
+					</td>
+
+					<td class="order-line-item-quantity">
+						{{item.quantity}}
+					</td>
+
+					<td class="order-line-item-price">
+						<span ng-show="item.type === 'coupon'">-</span>{{item.price | currency}}				
+					</td>
+
+					<td class="order-line-item-remove-area">
+						<button type="button"
+								class="btn btn-danger btn-xs"
+								ng-disabled="item.type === 'serviceMethod'"
+							  	ng-click="modifyLineItemQuantity(item)"><span class="glyphicon glyphicon-trash"></span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<p>
+			<strong>Total</strong>: {{order.total | currency}}
+		</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<button type="button"
+				ng-disabled="!orderIsValid"
+				ng-click="emptyCart()"
+				class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> Empty Cart</button>
+	</div>
+
+	<div class="col-md-6">
+		<button type="button"
+				ng-disabled="!orderIsValid"
+				class="btn btn-success pull-right"><span class="glyphicon glyphicon-lock"></span> Secure Checkout</button>
+	</div>
+</div>

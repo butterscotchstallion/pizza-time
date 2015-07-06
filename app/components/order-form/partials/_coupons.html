@@ -1,0 +1,43 @@
+<h4>Coupons <small>Coupons can only be applied to a valid order.</small></h4>
+
+<div ng-controller="CouponController">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group has-feedback" 
+				 ng-class="{'has-error': invalidCoupon, 'has-success': coupon.length > 0 && !invalidCoupon && isValidOrder}">
+				<label class="block">Code</label>
+
+				<input type="text"
+					   name="coupon-code"
+					   maxlength="{{settings.maxCouponCodeLength}}"
+					   ng-model="coupon"
+					   ng-change="invalidCoupon = false"
+					   ng-disabled="coupons.length === 0"
+					   class="form-control">
+
+				<span class="glyphicon glyphicon-ok form-control-feedback" 
+					  ng-show="coupon.length > 0 && !invalidCoupon && isValidOrder"
+					  aria-hidden="true"></span>
+
+				<span class="glyphicon glyphicon-remove form-control-feedback"
+					  aria-hidden="true"
+					  ng-show="invalidCoupon"></span>
+
+				<p ng-show="invalidCoupon" class="coupon-wrapper">
+					<strong class="error">Oops, we couldn't apply that coupon to your order.</strong>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3">
+			<div class="form-group">
+				<button type="button"
+						ng-click="addCoupon()"
+						ng-disabled="!orderIsValid"
+						class="btn btn-success"><span class="glyphicon glyphicon-scissors"></span> Apply Coupon</button>
+			</div>
+		</div>
+	</div>
+</div>

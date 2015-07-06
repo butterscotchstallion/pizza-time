@@ -1,0 +1,33 @@
+<h4>Side Items <small>Enhance your order.</small></h4>
+
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Price</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in sideItems">
+			<td>
+				{{item.name}}
+
+				<p class="help-block">{{item.description}}</p>
+
+				<p class="help-block" ng-show="item.maxQuantity > 0">Limit {{item.maxQuantity}} per order</p>
+			</td>
+
+			<td>
+				{{item.price | currency}}
+			</td>
+
+			<td>
+				<button type="button"
+						class="btn btn-info"
+						ng-disabled="item.quantity === item.maxQuantity"
+						ng-click="addLineItem(item)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
