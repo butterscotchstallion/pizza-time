@@ -4,9 +4,9 @@
 angular.module('pizzaTime', [
   'ngRoute',
   'ngAnimate',
-  'pizzaTime.orderForm',
-  'pizzaTime.version',
+  //'templateCacheModule',
   'angular-loading-bar',
+  'pizzaTime.orderForm',
   'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {

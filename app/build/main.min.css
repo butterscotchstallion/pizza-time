@@ -1,0 +1,25 @@
+#main .spinner { text-align: center; }
+
+footer { font-size: .75em; margin: 2em 0 5em 0; }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak { display: none !important; }
+
+.order-description { line-height: 1.8; }
+
+.remove-line-item { cursor: pointer; }
+
+.topping-label { line-height: 1.8; }
+
+.order-line-item { max-width: 200px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+.order-line-item-price { width: 30%; text-align: left; }
+
+.order-items { width: 100%; }
+
+.order-line-item-remove-area, .order-line-item-quantity { width: 1%; text-align: right; }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.error { color: #D91111; }
+
+.coupon-wrapper { margin-top: 1em; }
