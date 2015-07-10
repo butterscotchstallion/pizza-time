@@ -1,7 +1,7 @@
 /*! Bootstrap v3.3.5 (http://getbootstrap.com) Copyright 2011-2015 Twitter, Inc. Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url(../bower_components/angular-loading-bar/build/loading-bar.min.css);
-@import url(../bower_components/angular-bootstrap/ui-bootstrap-csp.css);
+@import url(../public/bower_components/angular-loading-bar/build/loading-bar.min.css);
+@import url(../public/bower_components/angular-bootstrap/ui-bootstrap-csp.css);
 html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
 
 body { margin: 0; }
@@ -2667,6 +2667,8 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 
 @media print { .hidden-print { display: none !important; } }
 
+#main { margin-bottom: 5em; }
+
 #main .spinner { text-align: center; }
 
 footer { font-size: .75em; margin: 2em 0 5em 0; }
@@ -2692,6 +2694,8 @@ footer { font-size: .75em; margin: 2em 0 5em 0; }
 .error { color: #D91111; }
 
 .coupon-wrapper { margin-top: 1em; }
+
+.topping-filter-area { padding: 1em 1em 1em 0; }
 
 /* We're using CSS transitions for when the enter and move events are triggered for the element that has the .repeated-item class */
 .repeated-item.ng-enter, .repeated-item.ng-move { -webkit-transition: 0.5s linear all; -moz-transition: 0.5s linear all; -o-transition: 0.5s linear all; transition: 0.5s linear all; opacity: 0; }

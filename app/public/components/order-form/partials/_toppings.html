@@ -1,0 +1,49 @@
+	
+<div class="row">
+	<div class="col-md-6">
+		<h4>Artisan Toppings <small>Gluten-free</small></h4>
+	</div>
+
+	<div class="col-md-6 topping-filter-area">
+		<div class="btn-group pull-right">
+			<button class="btn btn-default"
+					title="Show meat toppings"><span class="glyphicon glyphicon-piggy-bank"></span></button>
+
+			<button class="btn btn-default"
+					title="Show non-meat toppings"><span class="glyphicon glyphicon-tree-deciduous"></span></button>
+
+			<button class="btn btn-danger"
+					title="Show all"><span class="glyphicon glyphicon-remove"></span></button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Topping</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="topping in toppings">
+					<td>
+						{{topping.name}} &mdash; {{topping.price|currency}}
+
+						<p><em>{{topping.description}}</em></p>
+						<p class="help-block" ng-show="topping.maxQuantity > 0">Limit {{topping.maxQuantity}} per order</p>
+					</td>
+
+					<td>
+						<button type="button"
+								class="btn btn-info"
+								ng-disabled="topping.quantity === topping.maxQuantity"
+								ng-click="addLineItem(topping)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

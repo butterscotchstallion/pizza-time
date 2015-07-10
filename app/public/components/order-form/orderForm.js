@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
+angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   	$routeProvider.when('/order-form', {
@@ -140,33 +140,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		$scope.pieSizes = data.pieSizes;
 		$scope.settings = data.settings;
 		$scope.sideItems = data.sideItems;
-
-		$scope.toppings = {
-			meat: (function () {
-				var items = [];
-
-				for (var j = 0; j < data.toppings.length; j++) {
-					if (data.toppings[j].isMeat) {
-						items.push(data.toppings[j]);
-					}
-				}
-
-				return items;
-			})(),
-
-			nonMeat: (function () {
-				var items = [];
-
-				for (var j = 0; j < data.toppings.length; j++) {
-					if (!data.toppings[j].isMeat) {
-						items.push(data.toppings[j]);
-					}
-				}
-
-				return items;
-			})()
-		};
-
+		$scope.toppings = data.toppings;
 	}).error(function (xhr, status, error) {
 		console.error(error);
 	});
@@ -298,5 +272,37 @@ angular.module('pizzaTime.orderForm', ['ngRoute', 'checklist-model'])
 		$scope.order.items = $scope.order.items.filter(function (item) {
 			return item.type !== "serviceMethod";
 		});
+	}
+
+	$scope.getItemIcon = function (item) {
+		var icon = "glyphicon glyphicon-random";
+
+		switch (item.type) {
+			case "topping":
+				if (item.isMeat) {
+					icon = "glyphicon glyphicon-piggy-bank";
+				} else {
+					icon = "glyphicon glyphicon-tree-deciduous";
+				}
+			break;
+
+			case "pie":
+				icon = "glyphicon glyphicon-dashboard";
+			break;
+
+			case "sideItem":
+				icon = "glyphicon glyphicon-scale";
+			break;
+
+			case "coupon":
+				icon = "glyphicon glyphicon-gift";
+			break;
+
+			case "serviceMethod":
+				icon = "glyphicon glyphicon-usd";
+			break;
+		}
+
+		return icon;
 	}
 }]);

@@ -61,7 +61,8 @@
 			"price": ".50",
 			"isMeat": true,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 2,
@@ -70,7 +71,8 @@
 			"price": ".80",
 			"isMeat": true,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 3,
@@ -79,7 +81,8 @@
 			"price": ".75",
 			"isMeat": true,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 4,
@@ -88,7 +91,8 @@
 			"price": ".25",
 			"isMeat": false,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 5,
@@ -97,7 +101,8 @@
 			"price": ".25",
 			"isMeat": false,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 6,
@@ -106,7 +111,8 @@
 			"price": ".75",
 			"isMeat": false,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 7,
@@ -115,7 +121,8 @@
 			"price": "5.00",
 			"isMeat": false,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 8,
@@ -124,7 +131,8 @@
 			"price": "3.00",
 			"isMeat": true,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		},
 		{
 			"id": 8,
@@ -133,7 +141,8 @@
 			"price": "25.00",
 			"isMeat": false,
 			"quantity": 1,
-			"type": "topping"
+			"type": "topping",
+			"maxQuantity": 3
 		}
 	],
 	"sideItems": [
@@ -147,7 +156,7 @@
 		},
 		{
 			"name": "Dangerously Cheesy Nachos",
-			"description": "Feel the heart from our spiciest nachos, piled high with all the toppings you need.",
+			"description": "Feel the heat from our spiciest nachos, piled high with all the toppings you need.",
 			"price": "5.50",
 			"type": "sideItem",
 			"quantity": 1,
