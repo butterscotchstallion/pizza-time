@@ -13,13 +13,13 @@
 				{{size.name}} &mdash; {{size.price|currency}}
 
 				<p><em>{{size.description}}</em></p>
-				<p class="help-block" ng-show="size.maxQuantity > 0">Limit {{size.maxQuantity}} per order</p>
+				<p class="help-block" ng-show="size.maxQuantityPerOrder > 0">Limit {{size.maxQuantityPerOrder}} per order</p>
 			</td>
 
 			<td>
 				<button type="button"
 						class="btn btn-info"
-						ng-disabled="size.quantity === size.maxQuantity"
+						ng-disabled="size.quantity === size.maxQuantityPerOrder"
 						ng-click="addLineItem(size)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
 			</td>
 		</tr>

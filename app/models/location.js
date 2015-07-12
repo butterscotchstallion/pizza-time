@@ -1,21 +1,23 @@
 /**
- * Inventory model
+ * Location model
  *
  */
 "use strict";
 var Checkit       = require('checkit');
 var bookshelf     = require('./index');
+var inventorySize = require("../models/inventorySize");
 
 var checkit       = new Checkit({
-    name    : ['required'],
-    price: ['required'],
-    sizeTypeID: ['required'],
-    guid: ['required']
+    name: ['required']
 });
 
-var Inventory    = bookshelf.Model.extend({
-    tableName  : "inventory",
-
+var Location    = bookshelf.Model.extend({
+    tableName  : "locations",
+    
+    defaults   : {
+    
+    },
+    
     initialize : function () {
         this.on('saving', this.validateSave);
     },
@@ -27,7 +29,7 @@ var Inventory    = bookshelf.Model.extend({
     hasTimestamps: ['createdAt', 'updatedAt']
 });
 
-module.exports = Inventory;
+module.exports = Location;
 
 
 

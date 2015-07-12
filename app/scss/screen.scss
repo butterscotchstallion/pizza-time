@@ -1,8 +1,8 @@
 
 
 @import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "../public/bower_components/angular-loading-bar/build/loading-bar.min.css";
-@import "../public/bower_components/angular-bootstrap/ui-bootstrap-csp.css";
+@import "loading-bar.min";
+@import "ui-bootstrap-csp";
 
 @import "main";
 @import "animations";

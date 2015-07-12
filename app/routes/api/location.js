@@ -4,10 +4,9 @@
  */
 var express       = require('express');
 var router        = express.Router();
-var inventory     = require('../../models/inventory');
+var location     = require('../../models/location');
 var Bookshelf     = require('../../models/index');
 var url           = require('url');
-var _             = require('underscore');
 var uuid          = require('node-uuid');
 var fs            = require('fs');
 var config        = JSON.parse(fs.readFileSync("./config/api.json", 'utf8'));
@@ -17,76 +16,46 @@ var IS_DEV        = config.env === "development";
 router.get('/', function (req, res, next) {
     var urlParts = url.parse(req.url, true).query;
     var order    = urlParts.order || "name";
-    var cols     = [
-        "inventory.id as inventoryID",
-        "name",
-        "description",
-        "price",
-        "isMeat",
-        "maxQuantityPerOrder",
-        "inventory.guid",
-        "inventory.createdAt",
-        "inventory.updatedAt",
-        "inventory_sizes.typeName AS sizeName",
-        "inventory_sizes.id AS sizeID",
-        "inventory_types.typeName",
-        "inventory_types.id AS typeID"
-    ];
-
-    var qb = Bookshelf.knex
-                        .select(cols)
-                        .from('inventory')
-                        .innerJoin("inventory_sizes", "inventory.sizeTypeID", "inventory_sizes.id")
-                        .innerJoin("inventory_types", "inventory.inventoryTypeID", "inventory_types.id");
+    var Location = new location();
     
-    if (cols.indexOf(order) !== -1) {
-        qb.orderBy(order, "DESC");
-    }
-
-    qb.then(function (inventory) { 
-        res.status(200).json({
-            status  : "OK",
-            message : null,
-            inventory : inventory || []
-        });
-    })
-    .catch(function (error) {
-        res.status(200).json({
-            status: "ERROR",
-            message: error
-        });
-    });
+    Location.fetchAll()
+		    .then({
+		         required: true
+		    })
+		    .then(function (locations) {
+		       res.status(200).json({
+		            status  : "OK",
+		            message : null,
+		            locations : locations || []
+		        });
+		    })
+		    .catch(function (error) {
+		        res.status(200).json({
+		            status: "ERROR",
+		            message: error
+		        });
+		    });
 });
 
-// Create an inventory item
+// Create a location
 router.post('/', function (req, res, next) {
-    var name = req.body.name;
-    var description = req.body.description;    
-    var price = req.body.price;    
-    var isMeat = req.body.isMeat;
-    var maxQuantityPerOrder = req.body.maxQuantityPerOrder;
-    var sizeTypeID = req.body.sizeTypeID;
-    var inventoryTypeID = req.body.inventoryTypeID;
-    var model = new inventory();
+    var model = new location();
 
     model.save({
-            name: name,
-            description: description,
-            price: price,
-            isMeat: isMeat,
-            maxQuantityPerOrder: maxQuantityPerOrder,
-            sizeTypeID: sizeTypeID,
-            inventoryTypeID: inventoryTypeID,
-            guid: uuid.v4()
-          }, { patch: true })
+            name: req.body.name,
+            address: req.body.address,
+            minOrderAmount: req.body.minOrderAmount,
+            guid: uuid.v4(),
+            zipCode: req.body.zipCode
+          })
           .then(function (model) {
-            res.location(['/inventory', 
+          	res.location(['/locations', 
                           model.get('guid')].join('/'));
             
             res.status(201).json({
                 status : "OK",
-                message: "Inventory item created successfully",
-                item   : model
+                message: "Location created successfully",
+                location: model
             });
           })
           .catch(function (error) {
@@ -97,19 +66,19 @@ router.post('/', function (req, res, next) {
           });
 });
 
-// get item
+// Get location
 router.get('/:guid', function (req, res, next) {
-    var Inventory = new inventory({
+    var Location = new location({
         guid: req.params.guid
     });
 
-    Inventory.fetch()
-            .then(function (item) {
-                if (item) {
+    Location.fetch()
+            .then(function (location) {
+                if (location) {
                     res.status(200).json({
                         status  : "OK",
                         message : null,
-                        item: item
+                        location: location
                     });
                 } else {
                     res.status(404).json({
@@ -126,10 +95,10 @@ router.get('/:guid', function (req, res, next) {
             });
 });
 
-// Update item
+// Update location
 router.put('/:guid', function (req, res, next) {
     var item   = req.body;
-    var model  = new inventory({
+    var model  = new location({
         guid: req.params.guid
     });
     var options = { patch: true };
@@ -139,12 +108,12 @@ router.put('/:guid', function (req, res, next) {
             if (result) {
                 model.save(item, options)
                     .then(function (model) {                        
-                        res.location(['/inventory/', model.get('guid')].join('/'));
+                        res.location(['/locations/', model.get('guid')].join('/'));
                         
                         res.status(200).json({
                             status : "OK",
-                            message: "Inventory item updated.",
-                            item: model
+                            message: "Location updated.",
+                            location: model
                         });
                     })
                     .catch(function (error) {
@@ -156,16 +125,16 @@ router.put('/:guid', function (req, res, next) {
             } else {
                 res.status(404).json({
                     status: "ERROR",
-                    message: "Inventory item not found."
+                    message: "Location not found."
                 });
             }
         });
 });
 
-// delete item
+// delete location
 router.delete('/:guid', function (req, res, next) {
     var guid = req.params.guid;
-    var model = new inventory({
+    var model = new location({
         guid: guid
     });
     
@@ -176,26 +145,26 @@ router.delete('/:guid', function (req, res, next) {
                    .then(function () {
                         res.status(200).json({
                             status       : "OK",
-                            message      : "Inventory item deleted."
+                            message      : "Location deleted."
                         });
                     })
                     .catch(function (error) {
                         res.status(200).json({
                             status: "ERROR",
-                            message: IS_DEV ? error : "Error deleting inventory item."
+                            message: IS_DEV ? error : "Error deleting location."
                         });
                     });
             } else {
                 res.status(404).json({
                     status: "ERROR",
-                    message: "Item not found."
+                    message: "Location not found."
                 });
             }
         })
         .catch(function (error) {
             res.status(200).json({
                 status: "ERROR",
-                message: IS_DEV ? error : "Error deleting inventory item."
+                message: IS_DEV ? error : "Error deleting location."
             });
         });
 });

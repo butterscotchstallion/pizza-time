@@ -1,0 +1,29 @@
+
+<h4>Locations <small>Pick your favorite haunt.</small></h4>
+
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Address</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="location in locations">
+			<td>
+				<div class="radio">
+					<label>
+						<input type="radio"
+							   name="selectedLocation"
+							   ng-model="selectedLocation"
+							   value="location"> {{location.name}}
+					</label>
+				</div>
+			</td>
+
+			<td>
+				{{location.address}} - {{location.zipCode}}
+			</td>
+		</tr>
+	</tbody>
+</table>

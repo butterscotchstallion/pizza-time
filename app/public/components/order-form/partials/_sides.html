@@ -15,7 +15,7 @@
 
 				<p class="help-block">{{item.description}}</p>
 
-				<p class="help-block" ng-show="item.maxQuantity > 0">Limit {{item.maxQuantity}} per order</p>
+				<p class="help-block" ng-show="item.maxQuantityPerOrder > 0">Limit {{item.maxQuantityPerOrder}} per order</p>
 			</td>
 
 			<td>
@@ -25,7 +25,7 @@
 			<td>
 				<button type="button"
 						class="btn btn-info"
-						ng-disabled="item.quantity === item.maxQuantity"
+						ng-disabled="item.quantity === item.maxQuantityPerOrder"
 						ng-click="addLineItem(item)"><span class="glyphicon glyphicon-plus"></span> Add to order</button>
 			</td>
 		</tr>

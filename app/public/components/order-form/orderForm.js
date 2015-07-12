@@ -2,8 +2,8 @@
 
 angular.module('pizzaTime.orderForm', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  	$routeProvider.when('/order-form', {
+.config(['$routeProvider', function ($routeProvider) {
+  	$routeProvider.when('/order/customize', {
     	templateUrl: 'components/order-form/order-form.html',
     	controller: 'OrderFormController'
   	});
@@ -77,7 +77,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 	}
 }])
 
-.controller('OrderFormController', ["$scope", "$http", function ($scope, $http) {
+.controller('OrderFormController', ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
 	$scope.orderIsValid = false;
 	$scope.deliveryFee = 0;
 	$scope.settings = {
@@ -86,9 +86,8 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 	$scope.order = {
 		total: 0,
-		pieSize: "Large",
 		items: [],
-		deliveryMethod: "carryout"
+		serviceMethodTypeID: 2
 	};
 
 	$scope.onDeliveryMethodChanged = function (method) {
@@ -101,7 +100,8 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 			var fee = {
 				"name": "Delivery Fee",
 				"price": method.price,
-				"type": method.type,
+				"inventoryTypeID": method.type,
+				"inventoryTypeCode": "deliveryFee",
 				"code": method.code,
 				"quantity": 1,
 				"maxQuantity": 1
@@ -135,12 +135,23 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 		return coupons.length > 0;
 	};
+	
+	$http.get("/api/v1/inventory").success(function (data) {
+		if (data.status === "OK") {
+			$scope.pieSizes = data.inventory.filter(function (item) {
+				return item.typeName === "pie";
+			});
 
-	$http.get("components/order-form/order-form.json").success(function (data) {
-		$scope.pieSizes = data.pieSizes;
-		$scope.settings = data.settings;
-		$scope.sideItems = data.sideItems;
-		$scope.toppings = data.toppings;
+			$scope.settings = data.settings;
+
+			$scope.sideItems = data.inventory.filter(function (item) {
+				return item.typeName === "sideItem";
+			});
+
+			$scope.toppings = data.inventory.filter(function (item) {
+				return item.typeName === "topping";
+			});
+		}
 	}).error(function (xhr, status, error) {
 		console.error(error);
 	});

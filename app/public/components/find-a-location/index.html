@@ -1,0 +1,66 @@
+<div class="row">
+	<div class="col-md-12">
+		<h4>Find a Location <small>Pick it up and we'll bring it to you!</small></h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<form class="form-inline">
+			<div class="form-group">
+		    	<label class="sr-only" for="postalCode">Postal code</label>
+
+		    	<div class="input-group">
+		      		<div class="input-group-addon">
+		      			<span class="glyphicon glyphicon-search"></span>
+		      		</div>
+	      			<input type="text"
+	      				   class="form-control" 
+	      				   id="postalCode">
+		    	</div>
+		  	</div>
+
+		  	<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</div>
+</div>
+
+<div class="row" ng-show="errorFetchingLocations">
+	<div class="col-md-6">
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+
+			There was a problem finding locations.
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-show="locations.length > 0">
+	<div class="col-md-6">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="location in locations">
+					<td>
+						<p>{{ location.name }}</p>
+						<p>{{ location.address }}</p>
+					</td>
+
+					<td>
+						<a ng-href="/#/order/customize?postalCode={{ location.zipCode }}"
+						   class="btn btn-success">Order Now</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+

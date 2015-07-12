@@ -6,9 +6,12 @@ angular.module('pizzaTime', [
   'ngAnimate',
   //'templateCacheModule',
   'angular-loading-bar',
+  'pizzaTime.findALocation',
   'pizzaTime.orderForm',
   'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/order-form'});
+  $routeProvider.otherwise({
+  	redirectTo: "/order/find-a-location"
+  });
 }]);
