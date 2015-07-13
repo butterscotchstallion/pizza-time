@@ -1,12 +1,25 @@
 <h4>Service Method <small>Come and get it, or we can bring it to you!</small></h4>
 
-<div class="radio" 
-	 ng-repeat="method in settings.serviceMethods | orderBy: 'name'">
+<div class="radio" ng-show="location.hasCarryOut">
 	<label>
 		<input type="radio"
 			   name="serviceMethod"
 			   ng-model="order.deliveryMethod"
-			   ng-change="onDeliveryMethodChanged(method)"
-			   value="{{method.code}}"> {{method.name}}
+			   ng-change="onDeliveryMethodChanged('carryout')"
+			   value="carryout"> Carry Out
 	</label>
 </div>
+
+<div class="radio" ng-show="location.hasDelivery">
+	<label>
+		<input type="radio"
+			   name="serviceMethod"
+			   ng-model="order.deliveryMethod"
+			   ng-change="onDeliveryMethodChanged('delivery')"
+			   value="delivery"> Delivery
+	</label>
+</div>
+
+<p ng-show="location.hasDelivery && location.deliveryFee > 0">
+	<span class="glyphicon glyphicon-info-sign"></span> There is a <strong>{{ location.deliveryFee | currency }}</strong> delivery fee.
+</p>

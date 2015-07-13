@@ -1,5 +1,5 @@
 /**
- * inventory API routes
+ * Location API routes
  *
  */
 var express       = require('express');
@@ -46,7 +46,10 @@ router.post('/', function (req, res, next) {
             address: req.body.address,
             minOrderAmount: req.body.minOrderAmount,
             guid: uuid.v4(),
-            zipCode: req.body.zipCode
+            zipCode: req.body.zipCode,
+            hasCarryOut: req.body.hasCarryOut,
+            hasDelivery: req.body.hasDelivery,
+            deliveryFee: req.body.deliveryFee
           })
           .then(function (model) {
           	res.location(['/locations', 

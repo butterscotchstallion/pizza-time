@@ -23,7 +23,10 @@ describe("locations", function() {
                     name: "Dangerously cheesy test location",
                     address: "13 Test Street",
                     zipCode: "90210",
-                    minOrderAmount: 10.00
+                    minOrderAmount: 10.00,
+                    hasCarryOut: true,
+                    hasDelivery: false,
+                    deliveryFee: 5.00
                   })
                   .end(function(e, res) {
                       expect(e).to.eql(null);
@@ -46,6 +49,9 @@ describe("locations", function() {
                       expect(newLocation).to.have.key("zipCode");
                       expect(newLocation).to.have.key("minOrderAmount");
                       expect(newLocation).to.have.key("updatedAt");
+                      expect(newLocation).to.have.key("hasDelivery");
+                      expect(newLocation).to.have.key("hasCarryOut");
+                      expect(newLocation).to.have.key("deliveryFee");
                       expect(newLocation.createdAt).to.be.ok();
 
                       done();

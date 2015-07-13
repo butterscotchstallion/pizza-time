@@ -10,6 +10,7 @@ var checkit       = new Checkit({
     name    : ['required'],
     price: ['required'],
     sizeTypeID: ['required'],
+    inventoryTypeID: ['required'],
     guid: ['required']
 });
 

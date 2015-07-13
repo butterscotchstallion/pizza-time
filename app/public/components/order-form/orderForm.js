@@ -3,12 +3,11 @@
 angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 .config(['$routeProvider', function ($routeProvider) {
-  	$routeProvider.when('/order/customize', {
+  	$routeProvider.when('/order/:guid', {
     	templateUrl: 'components/order-form/order-form.html',
     	controller: 'OrderFormController'
   	});
 }])
-
 .controller('CouponController', ["$scope", "$http", function ($scope, $http) {
 	$scope.coupons = [];
 	$scope.invalidCoupon = false;
@@ -79,19 +78,18 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 .controller('OrderFormController', ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
 	$scope.orderIsValid = false;
-	$scope.deliveryFee = 0;
-	$scope.settings = {
-		minimumOrderAmount: 0
+	$scope.location = {
+		minOrderAmount: 10
 	};
-
 	$scope.order = {
 		total: 0,
 		items: [],
-		serviceMethodTypeID: 2
+		serviceMethodTypeID: 2,
+		deliveryMethod: "carryout"
 	};
 
 	$scope.onDeliveryMethodChanged = function (method) {
-		$scope.deliveryMethod = method.code;
+		$scope.deliveryMethod = method;
 
 		if ($scope.deliveryMethod === "carryout") {
 			$scope.removeDeliveryFee();
@@ -99,10 +97,10 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 		} else {
 			var fee = {
 				"name": "Delivery Fee",
-				"price": method.price,
-				"inventoryTypeID": method.type,
+				"price": $scope.location.deliveryFee,
+				"inventoryTypeID": 6,
 				"inventoryTypeCode": "deliveryFee",
-				"code": method.code,
+				"code": $scope.deliveryMethod,
 				"quantity": 1,
 				"maxQuantity": 1
 			};
@@ -135,14 +133,22 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 		return coupons.length > 0;
 	};
-	
+
+	$http.get("/api/v1/locations/" + $routeParams.guid).success(function (data) {
+		if (data.status === "OK") {
+			$scope.location = data.location;
+		} else {
+			$scope.errorFetchingLocation = true;
+		}
+	}).error(function (xhr, status, error) {
+		$scope.errorFetchingLocation = true;
+	});
+
 	$http.get("/api/v1/inventory").success(function (data) {
 		if (data.status === "OK") {
 			$scope.pieSizes = data.inventory.filter(function (item) {
 				return item.typeName === "pie";
 			});
-
-			$scope.settings = data.settings;
 
 			$scope.sideItems = data.inventory.filter(function (item) {
 				return item.typeName === "sideItem";
@@ -196,7 +202,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 			});
 		}
 
-		minOrderAmountSatisfied = $scope.order.total >= $scope.settings.minimumOrderAmount;
+		minOrderAmountSatisfied = $scope.order.total >= $scope.location.minOrderAmount;
 		hasFee = typeof typeCountMap['serviceMethod'] !== "undefined" && typeCountMap['serviceMethod'] > 0;
 		orderIsJustDeliveryFee = items.length === 1 && hasFee;
 
@@ -219,7 +225,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 		for (var j = 0; j < items.length; j++) {
 			// Item already in order
-			if (items[j] === item) {
+			if (items[j].inventoryTypeID === item.inventoryTypeID) {
 				if (item.quantity < items[j].maxQuantity) {
 					items[j].quantity += 1;
 
@@ -253,7 +259,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 		while ($scope.order.items.length > minItems) {
 			angular.forEach($scope.order.items, function (item, key) {
 				// Don't remove delivery fees
-				if (item.type !== "serviceMethod") {
+				if (item.inventoryTypeCode !== "deliveryFee") {
 					$scope.modifyLineItemQuantity(item);
 				}
 			});
@@ -281,39 +287,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 	$scope.removeDeliveryFee = function() {
 		$scope.order.items = $scope.order.items.filter(function (item) {
-			return item.type !== "serviceMethod";
+			return item.inventoryTypeCode !== "deliveryFee";
 		});
-	}
-
-	$scope.getItemIcon = function (item) {
-		var icon = "glyphicon glyphicon-random";
-
-		switch (item.type) {
-			case "topping":
-				if (item.isMeat) {
-					icon = "glyphicon glyphicon-piggy-bank";
-				} else {
-					icon = "glyphicon glyphicon-tree-deciduous";
-				}
-			break;
-
-			case "pie":
-				icon = "glyphicon glyphicon-dashboard";
-			break;
-
-			case "sideItem":
-				icon = "glyphicon glyphicon-scale";
-			break;
-
-			case "coupon":
-				icon = "glyphicon glyphicon-gift";
-			break;
-
-			case "serviceMethod":
-				icon = "glyphicon glyphicon-usd";
-			break;
-		}
-
-		return icon;
 	}
 }]);

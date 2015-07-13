@@ -26,7 +26,8 @@ describe("inventory", function() {
                     isMeat: false,
                     maxQuantityPerOrder: 5,
                     sizeTypeID: 2,
-                    inventoryTypeID: 5
+                    inventoryTypeID: 5,
+                    serviceMethods: [1, 2]
                   })
                   .end(function(e, res) {
                       expect(e).to.eql(null);

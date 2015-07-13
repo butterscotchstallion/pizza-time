@@ -67,6 +67,7 @@ router.post('/', function (req, res, next) {
     var maxQuantityPerOrder = req.body.maxQuantityPerOrder;
     var sizeTypeID = req.body.sizeTypeID;
     var inventoryTypeID = req.body.inventoryTypeID;
+    var serviceMethods = req.body.serviceMethods;
     var model = new inventory();
 
     model.save({
@@ -78,7 +79,7 @@ router.post('/', function (req, res, next) {
             sizeTypeID: sizeTypeID,
             inventoryTypeID: inventoryTypeID,
             guid: uuid.v4()
-          }, { patch: true })
+          })
           .then(function (model) {
             res.location(['/inventory', 
                           model.get('guid')].join('/'));
@@ -90,9 +91,9 @@ router.post('/', function (req, res, next) {
             });
           })
           .catch(function (error) {
-                res.status(200).json({
+                res.status(400).json({
                     status: "ERROR",
-                    message: error
+                    message: IS_DEV ? error : "Error creating inventory item."
                 });
           });
 });

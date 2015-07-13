@@ -37,7 +37,7 @@
 	</div>
 </div>
 
-<div class="row" ng-show="locations.length > 0">
+<div class="row locations-container" ng-show="locations.length > 0">
 	<div class="col-md-6">
 		<table class="table table-bordered">
 			<thead>
@@ -54,9 +54,9 @@
 						<p>{{ location.address }}</p>
 					</td>
 
-					<td>
-						<a ng-href="/#/order/customize?postalCode={{ location.zipCode }}"
-						   class="btn btn-success">Order Now</a>
+					<td class="locations-order-col">
+						<a href="/#/order/{{location.guid}}"
+						   class="btn btn-block btn-success"><span class="glyphicon glyphicon-shopping-cart"></span> Order NOW</a>
 					</td>
 				</tr>
 			</tbody>

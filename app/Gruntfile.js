@@ -13,6 +13,7 @@ module.exports = function(grunt) {
             express: {
                 files:  ['Gruntfile.js',   
                          'app.js', 
+                         'models/**/*.js',
                          'routes/**/*.js',
                          'test/*.js'],
                 tasks:  ['express:dev'],

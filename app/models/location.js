@@ -8,7 +8,13 @@ var bookshelf     = require('./index');
 var inventorySize = require("../models/inventorySize");
 
 var checkit       = new Checkit({
-    name: ['required']
+    name: ['required'],
+    address: ['required'],
+    zipCode: ['required'],
+    minOrderAmount: ['required'],
+    hasCarryOut: ['required'],
+    hasDelivery: ['required'],
+    deliveryFee: ['required']
 });
 
 var Location    = bookshelf.Model.extend({
