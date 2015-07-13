@@ -30,6 +30,7 @@ router.get('/', function (req, res, next) {
         "inventory_sizes.typeName AS sizeName",
         "inventory_sizes.id AS sizeID",
         "inventory_types.typeName",
+        "inventory_types.typeCode",
         "inventory_types.id AS typeID"
     ];
 

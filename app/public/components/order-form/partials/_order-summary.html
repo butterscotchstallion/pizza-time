@@ -1,4 +1,4 @@
-<h4>Your Order</h4>
+<h4>Your Order <small ng-show="location" title="Located at {{location.address}}">from {{location.name}}</small></h4>
 
 <div class="row">
 	<div class="col-md-12">
@@ -17,7 +17,7 @@
 			<tbody>
 				<tr ng-repeat="item in order.items | orderBy: ['type','subType']" 
 					class="repeated-item"
-					ng-class="{'success': item.typeName === 'coupon', 'warning': item.typeName === 'serviceMethod'}">
+					ng-class="{'success': item.typeName === 'coupon', 'warning': item.typeName === 'deliveryFee'}">
 					<td class="order-line-item" title="{{item.name}}">
 						<span ng-show="!item.isMeat && item.typeName === 'topping'" 
 							  class="glyphicon glyphicon-tree-deciduous"></span>
@@ -29,7 +29,7 @@
 							  class="glyphicon glyphicon-scale"></span>
 						<span ng-show="item.typeName === 'coupon'" 
 							  class="glyphicon glyphicon-gift"></span>
-						<span ng-show="item.typeName === 'serviceMethod'" 
+						<span ng-show="item.typeName === 'deliveryFee'" 
 							  class="glyphicon glyphicon-usd"></span>
 						{{item.name}}
 					</td>
@@ -46,7 +46,7 @@
 						<button type="button"
 								title="Decrease quantity or remove this item"
 								class="btn btn-danger btn-xs"
-								ng-disabled="item.typeName === 'serviceMethod'"
+								ng-disabled="item.typeName === 'deliveryFee'"
 							  	ng-click="modifyLineItemQuantity(item)"><span class="glyphicon glyphicon-trash"></span></button>
 					</td>
 				</tr>
