@@ -15,7 +15,9 @@ module.exports = function(grunt) {
                          'app.js', 
                          'models/**/*.js',
                          'routes/**/*.js',
-                         'test/*.js'],
+                         'middleware/*.js',
+                         'config/*.json',
+                         'test/**/*.js'],
                 tasks:  ['express:dev'],
                 options: {
                     spawn: false
