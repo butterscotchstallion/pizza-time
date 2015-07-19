@@ -1,14 +1,6 @@
 'use strict';
 
-angular.module('pizzaTime.orderForm', ['ngRoute'])
-
-.config(['$routeProvider', function ($routeProvider) {
-  	$routeProvider.when('/order/:guid', {
-    	templateUrl: 'components/order-form/order-form.html',
-    	controller: 'OrderFormController'
-  	});
-}])
-.controller('CouponController', ["$scope", "$http", function ($scope, $http) {
+app.controller('CouponController', ["$scope", "$http", function ($scope, $http) {
 	$scope.coupons = [];
 	$scope.invalidCoupon = false;
 	$scope.coupon = "";
@@ -78,6 +70,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 .controller('OrderFormController', ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
 	$scope.orderIsValid = false;
+	$scope.orderSummarySort = "typeID";
 	$scope.location = {
 		minOrderAmount: 10
 	};
@@ -99,7 +92,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 				"name": "Delivery Fee",
 				"price": $scope.location.deliveryFee,
 				"inventoryTypeID": 6,
-				"typeName": "deliveryFee",
+				"typeCode": "deliveryFee",
 				"code": $scope.deliveryMethod,
 				"quantity": 1,
 				"maxQuantityPerOrder": 1
@@ -261,7 +254,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 		while ($scope.order.items.length > minItems) {
 			angular.forEach($scope.order.items, function (item, key) {
 				// Don't remove delivery fees
-				if (item.inventoryTypeCode !== "deliveryFee") {
+				if (item.typeCode !== "deliveryFee") {
 					$scope.modifyLineItemQuantity(item);
 				}
 			});
@@ -289,7 +282,7 @@ angular.module('pizzaTime.orderForm', ['ngRoute'])
 
 	$scope.removeDeliveryFee = function() {
 		$scope.order.items = $scope.order.items.filter(function (item) {
-			return item.typeName !== "deliveryFee";
+			return item.typeCode !== "deliveryFee";
 		});
 	}
 }]);

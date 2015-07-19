@@ -8,45 +8,45 @@
 			   class="order-items table table-condensed table-hover">
 			<thead>
 				<tr>
-					<th>Item</th>
-					<th>Quantity</th>
-					<th>Price</th>
+					<th ng-click="orderSummarySort = 'name'">Item</th>
+					<th ng-click="orderSummarySort = 'quantity'">Quantity</th>
+					<th ng-click="orderSummarySort = 'price'">Price</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in order.items | orderBy: ['type','subType']" 
+				<tr ng-repeat="item in order.items | orderBy: orderSummarySort" 
 					class="repeated-item"
-					ng-class="{'success': item.typeName === 'coupon', 'warning': item.typeName === 'deliveryFee'}">
+					ng-class="{'success': item.typeCode === 'coupon', 'warning': item.typeCode === 'deliveryFee'}">
 					<td class="order-line-item" title="{{item.name}}">
-						<span ng-show="!item.isMeat && item.typeName === 'topping'" 
+						<span ng-show="!item.isMeat && item.typeCode === 'topping'" 
 							  class="glyphicon glyphicon-tree-deciduous"></span>
-						<span ng-show="item.isMeat && item.typeName === 'topping'" 
+						<span ng-show="item.isMeat && item.typeCode === 'topping'" 
 							  class="glyphicon glyphicon-piggy-bank"></span>
-						<span ng-show="item.typeName === 'pie'" 
+						<span ng-show="item.typeCode === 'pie'" 
 							  class="glyphicon glyphicon-dashboard"></span>
-						<span ng-show="item.typeName === 'sideItem'" 
+						<span ng-show="item.typeCode === 'sideItem'" 
 							  class="glyphicon glyphicon-scale"></span>
-						<span ng-show="item.typeName === 'coupon'" 
+						<span ng-show="item.typeCode === 'coupon'" 
 							  class="glyphicon glyphicon-gift"></span>
-						<span ng-show="item.typeName === 'deliveryFee'" 
+						<span ng-show="item.typeCode === 'deliveryFee'" 
 							  class="glyphicon glyphicon-usd"></span>
 						{{item.name}}
 					</td>
 
 					<td class="order-line-item-quantity">
-						{{item.quantity}}
+						<span class="badge" title="{{item.quantity}}">{{item.quantity}}</span>
 					</td>
 
 					<td class="order-line-item-price">
-						<span ng-show="item.typeName === 'coupon'">-</span>{{item.price | currency}}				
+						<span ng-show="item.typeCode === 'coupon'">-</span>{{item.price | currency}}				
 					</td>
 
 					<td class="order-line-item-remove-area">
 						<button type="button"
 								title="Decrease quantity or remove this item"
 								class="btn btn-danger btn-xs"
-								ng-disabled="item.typeName === 'deliveryFee'"
+								ng-disabled="item.typeCode === 'deliveryFee'"
 							  	ng-click="modifyLineItemQuantity(item)"><span class="glyphicon glyphicon-trash"></span></button>
 					</td>
 				</tr>

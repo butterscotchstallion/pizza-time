@@ -11,7 +11,8 @@
 	<tbody>
 		<tr ng-repeat="item in sideItems">
 			<td>
-				{{item.name}}
+				<span ng-show="item.typeCode === 'sideItem'" 
+					  class="glyphicon glyphicon-scale"></span> {{item.name}}
 
 				<p class="help-block">{{item.description}}</p>
 
