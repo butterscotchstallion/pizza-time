@@ -18,11 +18,13 @@ gulp.task('buildJS', function() {
     	//"public/build/templateCacheModule.js",
     	"app/public/app.js",
     	"app/public/components/**/*.js",
+      "app/public/services/**/*.js",
     	"app/public/bower_components/angular-animate/angular-animate.min.js",
     	"app/public/bower_components/angular-loading-bar/build/loading-bar.min.js",
     	"app/public/bower_components/angular-bootstrap/ui-bootstrap.min.js",
     	"app/public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
-    	"app/public/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"
+    	//"app/public/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js",
+      "app/public/bower_components/angular-local-storage/dist/angular-local-storage.min.js"
     ])
     	.pipe(concat("app.js"))
        	//.pipe(jsmin())
