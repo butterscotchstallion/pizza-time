@@ -1,0 +1,56 @@
+<h4>Account <small>Sign In</small></h4>
+
+<div class="row"
+	 ng-hide="!signInMessage">
+	<div class="col-md-6">
+		<div class="alert alert-danger">
+			<span class="glyphicon glyphicon-remove"></span> There was a problem signing in: <strong>{{signInMessage}}</strong>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<form name="signInForm"
+			  novalidate
+			  method="post"
+			  ng-submit="signIn(signInForm)">
+
+			<div class="form-group" show-errors>
+				<label for="account.name">Account name</label>
+
+				<div class="input-group">
+  					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+					<input type="text" 
+						   name="name"
+						   class="form-control"
+						   ng-model="account.name"
+						   id="account.name"
+						   placeholder="Account name"
+						   maxlength="25"
+						   required>
+				</div>
+			</div>
+
+			<div class="form-group" show-errors>
+				<label for="account.password">Account password</label>
+
+				<div class="input-group">
+  					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+					<input type="password" 
+						   name="password"
+						   class="form-control"
+						   ng-model="account.password"
+						   id="account.password"
+						   placeholder="Account password"
+						   required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<button type="submit"
+						class="btn btn-success pull-right"><span class="glyphicon glyphicon-lock"></span> Sign In</button>
+			</div>
+		</form>
+	</div>
+</div>
