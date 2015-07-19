@@ -8,7 +8,7 @@ var superagent = require("superagent");
 var expect      = require("expect.js");
 var fs          = require("fs");
 var config      = JSON.parse(fs.readFileSync("./config/api.json", "utf8"));
-var BASE_URL    = config.base_url;
+var BASE_URL    = config.baseURL;
 var qs          = require("querystring");
 var _           = require("underscore");
 
